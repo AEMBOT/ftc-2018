@@ -20,6 +20,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 @Autonomous(name = "AutonomousMode")
 public class AutonomousMode extends LinearOpMode {
 
@@ -36,6 +39,10 @@ public class AutonomousMode extends LinearOpMode {
     private DcMotor motorRF;
     private DcMotor motorLB;
     private DcMotor motorRB;
+    private double runtime;
+    private boolean HasRun = false;
+
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -72,9 +79,24 @@ public class AutonomousMode extends LinearOpMode {
 
         relicTrackables.activate();
 
+
         while (opModeIsActive())
         {
             setUpVuforia(relicTemplate);
+            if(HasRun == false)
+            {
+                long t = System.currentTimeMillis();
+                long end = t + 2000;
+                while (System.currentTimeMillis() < end) {
+                    motorLF.setPower(1);
+                    motorRF.setPower(1);
+                    motorLB.setPower(1);
+                    motorRB.setPower(1);
+                    Thread.sleep(10);
+                }
+                HasRun = true;
+            }
+
         }
     }
 
