@@ -71,7 +71,6 @@ public class TeleOpMode extends LinearOpMode
                 //Move Forward
                  if(gamepad1.dpad_up)
                  {
-
                     motorLeft1.setPower(1);
                     motorRight1.setPower(1);
                     motorLeft2.setPower(1);

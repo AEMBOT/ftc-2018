@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+
+//region Imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -19,6 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+//endregion
 
 @Autonomous(name = "AutonomousMode")
 public class AutonomousMode extends LinearOpMode {
@@ -36,6 +39,9 @@ public class AutonomousMode extends LinearOpMode {
     private DcMotor motorRF;
     private DcMotor motorLB;
     private DcMotor motorRB;
+    private boolean HasRun = false;
+
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -62,19 +68,31 @@ public class AutonomousMode extends LinearOpMode {
 
         //endregion
 
-        Servo1 = hardwareMap.servo.get("Servo1");
-        motorLF = hardwareMap.dcMotor.get("motorLeft1");
-        motorRF = hardwareMap.dcMotor.get("motorRight1");
-        motorLB = hardwareMap.dcMotor.get("motorLeft2");
-        motorRB = hardwareMap.dcMotor.get("motorRight2");
+        motorLF = hardwareMap.dcMotor.get("motorLF");
+        motorRF = hardwareMap.dcMotor.get("motorRF");
+        motorLB = hardwareMap.dcMotor.get("motorLB");
+        motorRB = hardwareMap.dcMotor.get("motorRB");
 
         waitForStart();
-
+        long t = System.currentTimeMillis();
+        long end = t + 2000;
         relicTrackables.activate();
 
         while (opModeIsActive())
         {
             setUpVuforia(relicTemplate);
+            if(HasRun == false)
+            {
+                while (System.currentTimeMillis() < end) {
+                    motorLF.setPower(1);
+                    motorRF.setPower(-1);
+                    motorLB.setPower(1);
+                    motorRB.setPower(-1);
+                    Thread.sleep(1);
+                }
+                HasRun = true;
+            }
+
         }
     }
 
@@ -129,4 +147,3 @@ public class AutonomousMode extends LinearOpMode {
     }
     //endregion
 }
-
