@@ -23,6 +23,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 //endregion
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 @Autonomous(name = "AutonomousMode")
 public class AutonomousMode extends LinearOpMode {
 
@@ -39,6 +42,10 @@ public class AutonomousMode extends LinearOpMode {
     private DcMotor motorRF;
     private DcMotor motorLB;
     private DcMotor motorRB;
+<<<<<<< HEAD
+=======
+    private double runtime;
+>>>>>>> 93caf10ddbea2e2da251d7f0b64e0944ebbc679e
     private boolean HasRun = false;
 
 
@@ -78,17 +85,29 @@ public class AutonomousMode extends LinearOpMode {
         long end = t + 2000;
         relicTrackables.activate();
 
+
         while (opModeIsActive())
         {
             setUpVuforia(relicTemplate);
             if(HasRun == false)
             {
+<<<<<<< HEAD
                 while (System.currentTimeMillis() < end) {
                     motorLF.setPower(1);
                     motorRF.setPower(-1);
                     motorLB.setPower(1);
                     motorRB.setPower(-1);
                     Thread.sleep(1);
+=======
+                long t = System.currentTimeMillis();
+                long end = t + 2000;
+                while (System.currentTimeMillis() < end) {
+                    motorLF.setPower(1);
+                    motorRF.setPower(1);
+                    motorLB.setPower(1);
+                    motorRB.setPower(1);
+                    Thread.sleep(10);
+>>>>>>> 93caf10ddbea2e2da251d7f0b64e0944ebbc679e
                 }
                 HasRun = true;
             }
