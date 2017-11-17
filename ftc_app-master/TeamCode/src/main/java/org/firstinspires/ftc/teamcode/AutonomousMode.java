@@ -57,8 +57,7 @@ public class AutonomousMode extends LinearOpMode {
     private VuforiaTrackables relicTrackables;
     private VuforiaTrackable relicTemplate;
 
-
-    public boolean VumarkFound = false;
+    public boolean HasMoved = false;
 
     //All OpMode Code Is Stored Here And Ran From Here
     @Override
@@ -148,16 +147,28 @@ public class AutonomousMode extends LinearOpMode {
         if(vuMark.toString() == "CENTER")
         {
             telemetry.addData("It's The Center", "");
+            if(HasMoved != true) {
+                MoveIfCenter();
+            }
         }
 
         if(vuMark.toString() == "LEFT")
         {
             telemetry.addData("It's The Left", "");
+            if(HasMoved != true) {
+                MoveIfLeft();
+            }
         }
 
         if(vuMark.toString() == "RIGHT")
         {
             telemetry.addData("It's The Right", "");
+
+            if(HasMoved != true)
+            {
+                MoveIfRight();
+            }
+
         }
     }
     String format(OpenGLMatrix transformationMatrix) {
@@ -165,6 +176,42 @@ public class AutonomousMode extends LinearOpMode {
     }
 
     //endregion
+
+    public void MoveIfCenter() throws InterruptedException {
+        motorLF.setPower(1);
+        motorRF.setPower(1);
+        motorLB.setPower(1);
+        motorRB.setPower(1);
+        Thread.sleep(300);
+        motorLF.setPower(0);
+        motorRF.setPower(0);
+        motorLB.setPower(0);
+        motorRB.setPower(0);
+    }
+
+    public void MoveIfLeft() throws InterruptedException {
+        motorLF.setPower(1);
+        motorRF.setPower(1);
+        motorLB.setPower(1);
+        motorRB.setPower(1);
+        Thread.sleep(250);
+        motorLF.setPower(0);
+        motorRF.setPower(0);
+        motorLB.setPower(0);
+        motorRB.setPower(0);
+    }
+
+    public void MoveIfRight() throws InterruptedException {
+        motorLF.setPower(1);
+        motorRF.setPower(1);
+        motorLB.setPower(1);
+        motorRB.setPower(1);
+        Thread.sleep(350);
+        motorLF.setPower(0);
+        motorRF.setPower(0);
+        motorLB.setPower(0);
+        motorRB.setPower(0);
+    }
 
 }
 
