@@ -14,6 +14,7 @@ public class TeleOpMode extends LinearOpMode
     private DcMotor motorRight1;
     private DcMotor motorLeft2;
     private DcMotor motorRight2;
+    private DcMotor LiftMotor;
     private Servo Servo1;
     private Servo Servo2;
     private Servo Servo3;
@@ -28,6 +29,7 @@ public class TeleOpMode extends LinearOpMode
         motorRight1 = hardwareMap.dcMotor.get("motorRF");
         motorLeft2 = hardwareMap.dcMotor.get("motorLB");
         motorRight2 = hardwareMap.dcMotor.get("motorRB");
+        LiftMotor = hardwareMap.dcMotor.get("LiftMotor");
 
         Servo1 = hardwareMap.servo.get("servo1");
         Servo2 = hardwareMap.servo.get("servo2");
@@ -106,7 +108,13 @@ public class TeleOpMode extends LinearOpMode
                     motorLeft2.setPower(-1);
                     motorRight1.setPower(-1);
                     motorRight2.setPower(1);
+                 }
 
+                 if (gamepad2.dpad_up)
+                 {
+                     LiftMotor.setPower(1);
+                     Thread.sleep(500);
+                     LiftMotor.setPower(0);
                  }
 
                  //endregion

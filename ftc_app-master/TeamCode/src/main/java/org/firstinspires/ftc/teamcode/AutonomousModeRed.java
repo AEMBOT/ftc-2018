@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -22,8 +24,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 //endregion
 
 //Define Program Name
-@Autonomous(name = "AutonomousMode")
-public class AutonomousMode extends LinearOpMode {
+@Autonomous(name = "AutonomousModeRed")
+public class AutonomousModeRed extends LinearOpMode {
 
     //region Vuforia Stuffs
     public static final String TAG = "AutonomousMode";
@@ -52,11 +54,8 @@ public class AutonomousMode extends LinearOpMode {
     //Define Servo That Has the Color Sensor Attached
     private Servo ColorServo;
 
-    private ColorSensor ColorSensor;
+    private boolean ScannedColor = false;
 
-    private VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-    private VuforiaTrackable relicTemplate = relicTrackables.get(0);
-    private RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
     //All OpMode Code Is Stored Here And Ran From Here
     @Override
@@ -75,8 +74,8 @@ public class AutonomousMode extends LinearOpMode {
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
-
-
+        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
         telemetry.addData(">", "Press Play to start");
@@ -90,8 +89,8 @@ public class AutonomousMode extends LinearOpMode {
         motorLB = hardwareMap.dcMotor.get("motorLB");
         motorRB = hardwareMap.dcMotor.get("motorRB");
         ColorServo = hardwareMap.servo.get("CS");
-        ColorSensor = hardwareMap.colorSensor.get("color");
-
+        NormalizedColorSensor colorSensor = hardwareMap.get(NormalizedColorSensor.class, "color");
+        NormalizedRGBA colors = colorSensor.getNormalizedColors();
 
         motorLF.setDirection(DcMotor.Direction.REVERSE);
         motorLB.setDirection(DcMotor.Direction.REVERSE);
@@ -102,9 +101,18 @@ public class AutonomousMode extends LinearOpMode {
         //Actiavte The Relic Trackable
         relicTrackables.activate();
 
-        setUpVuforia(relicTemplate);
+        while (true) {
+            if (colors.red > 200) {
+                motorLF.setPower(1);
+                motorRF.setPower(1);
+                motorLB.setPower(1);
+                motorRB.setPower(1);
+            }
+        }
+
 
     }
+
 
     //region Vuforia
     public void setUpVuforia(VuforiaTrackable relicTemplate) {
@@ -116,6 +124,7 @@ public class AutonomousMode extends LinearOpMode {
          * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
          */
 
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 /* Found an instance of the template. In the actual game, you will probably
@@ -154,28 +163,5 @@ public class AutonomousMode extends LinearOpMode {
     String format(OpenGLMatrix transformationMatrix) {
         return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
     }
-
-    public void ReadVuforia()
-    {
-        if(vuMark.toString() == "CENTER")
-        {
-            telemetry.addData("It's The Center", "");
-        }
-
-        if(vuMark.toString() == "LEFT")
-        {
-            telemetry.addData("It's The Left", "");
-        }
-
-        if(vuMark.toString() == "RIGHT")
-        {
-            telemetry.addData("It's The Right", "");
-        }
-    }
-
-
     //endregion
-
-
 }
-
