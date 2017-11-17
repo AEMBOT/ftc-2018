@@ -116,6 +116,24 @@ public class TeleOpMode extends LinearOpMode
                      Thread.sleep(500);
                      LiftMotor.setPower(0);
                  }
+                 
+                 if (gamepad2.dpad_down)
+                 {
+                     LiftMotor.setPower(-1);
+                     Thread.sleep(500);
+                     LiftMotor.setPower(0);
+                 }
+                 
+                 if (gamepad2.left_bumper)
+                 {
+                    Servo1.setPosition(1);
+                    Servo2.setPosition(1);
+                 }
+                 if (gamepad2.right_bumper)
+                 {
+                    Servo1.setPosition(-1);
+                    Servo2.setPosition(-1);
+                 }
 
                  //endregion
         }
