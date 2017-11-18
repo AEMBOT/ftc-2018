@@ -55,11 +55,12 @@ public class TeleOpMode extends LinearOpMode
             if (gamepad2.dpad_right)
             {
                     Servo1.setPosition(Servo1.getPosition() + 0.01);
-
+                    Servo2.setPosition(Servo2.getPosition() - 0.01);
             }
             if (gamepad2.dpad_left)
             {
                     Servo1.setPosition(Servo1.getPosition() - 0.01);
+                    Servo2.setPosition(Servo2.getPosition() + 0.01);
             }
             //endregion
 
