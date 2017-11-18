@@ -48,7 +48,10 @@ public class AutonomousMode extends LinearOpMode {
 
     //Define Motor Right Back
     private DcMotor motorRB;
-
+    
+    //Define Lift Motor
+    private DcMotor motorLU;
+    
     //Define Servo That Has the Color Sensor Attached
     private Servo ColorServo;
 
@@ -68,6 +71,7 @@ public class AutonomousMode extends LinearOpMode {
         motorRF = hardwareMap.dcMotor.get("motorRF");
         motorLB = hardwareMap.dcMotor.get("motorLB");
         motorRB = hardwareMap.dcMotor.get("motorRB");
+        motorLU = hardwareMap.dcMotor.get("motorLU");
         ColorServo = hardwareMap.servo.get("CS");
         ColorSensor = hardwareMap.colorSensor.get("color");
 
@@ -179,6 +183,9 @@ public class AutonomousMode extends LinearOpMode {
 
     public void MoveIfCenter() throws InterruptedException {
         HasMoved = true;
+        //Raise Lift Arm
+        motorLU.setPower(0.5);
+        Thread.sleep(50);
         //Move forward off balancing position
         motorLF.setPower(0.6);
         motorRF.setPower(0.6);
@@ -206,6 +213,9 @@ public class AutonomousMode extends LinearOpMode {
 
     public void MoveIfLeft() throws InterruptedException {
         HasMoved = true;
+        //Raise Lift Arm
+        motorLU.setPower(0.5);
+        Thread.sleep(50);
         //Move forward off balancing position
         motorLF.setPower(1);
         motorRF.setPower(1);
@@ -233,6 +243,9 @@ public class AutonomousMode extends LinearOpMode {
 
     public void MoveIfRight() throws InterruptedException {
         HasMoved = true;
+        //Raise Lift Arm
+        motorLU.setPower(0.5);
+        Thread.sleep(50);
         //Move forward off balancing position
         motorLF.setPower(1);
         motorRF.setPower(1);
