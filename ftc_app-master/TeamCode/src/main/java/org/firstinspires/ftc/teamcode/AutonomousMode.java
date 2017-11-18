@@ -178,6 +178,7 @@ public class AutonomousMode extends LinearOpMode {
     //endregion
 
     public void MoveIfCenter() throws InterruptedException {
+        HasMoved = true;
         motorLF.setPower(1);
         motorRF.setPower(1);
         motorLB.setPower(1);
@@ -190,6 +191,7 @@ public class AutonomousMode extends LinearOpMode {
     }
 
     public void MoveIfLeft() throws InterruptedException {
+        HasMoved = true;
         motorLF.setPower(1);
         motorRF.setPower(1);
         motorLB.setPower(1);
@@ -202,6 +204,7 @@ public class AutonomousMode extends LinearOpMode {
     }
 
     public void MoveIfRight() throws InterruptedException {
+        HasMoved = true;
         motorLF.setPower(1);
         motorRF.setPower(1);
         motorLB.setPower(1);
