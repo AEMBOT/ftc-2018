@@ -179,34 +179,52 @@ public class AutonomousMode extends LinearOpMode {
 
     public void MoveIfCenter() throws InterruptedException {
         HasMoved = true;
+        //Move forward off balancing position
         motorLF.setPower(0.6);
         motorRF.setPower(0.6);
         motorLB.setPower(0.6);
         motorRB.setPower(0.6);
         Thread.sleep(175);
+        //Turn to face glyph collumns
         motorLF.setPower(-1);
         motorRF.setPower(1);
         motorLB.setPower(-1);
         motorRB.setPower(1);
         Thread.sleep(60);
-        motorLF.setPower(0);
-        motorRF.setPower(0);
-        motorLB.setPower(0);
-        motorRB.setPower(0);
+        //Move robot forward-pushing block in place
         motorLF.setPower(0.6);
         motorRF.setPower(0.6);
         motorLB.setPower(0.6);
         motorRB.setPower(0.6);
         Thread.sleep(50);
+        //Stop robot
+        motorLF.setPower(0);
+        motorRF.setPower(0);
+        motorLB.setPower(0);
+        motorRB.setPower(0);
     }
 
     public void MoveIfLeft() throws InterruptedException {
         HasMoved = true;
+        //Move forward off balancing position
         motorLF.setPower(1);
         motorRF.setPower(1);
         motorLB.setPower(1);
         motorRB.setPower(1);
         Thread.sleep(150);
+        //Turn to face glyph collumns
+        motorLF.setPower(-1);
+        motorRF.setPower(1);
+        motorLB.setPower(-1);
+        motorRB.setPower(1);
+        Thread.sleep(60);
+        //Move robot forward-pushing block in place
+        motorLF.setPower(0.6);
+        motorRF.setPower(0.6);
+        motorLB.setPower(0.6);
+        motorRB.setPower(0.6);
+        Thread.sleep(50);
+        //Stop robot
         motorLF.setPower(0);
         motorRF.setPower(0);
         motorLB.setPower(0);
@@ -215,11 +233,25 @@ public class AutonomousMode extends LinearOpMode {
 
     public void MoveIfRight() throws InterruptedException {
         HasMoved = true;
+        //Move forward off balancing position
         motorLF.setPower(1);
         motorRF.setPower(1);
         motorLB.setPower(1);
         motorRB.setPower(1);
         Thread.sleep(300);
+        //Turn to face glyph collumns
+        motorLF.setPower(-1);
+        motorRF.setPower(1);
+        motorLB.setPower(-1);
+        motorRB.setPower(1);
+        Thread.sleep(60);
+        //Move robot forward-pushing block in place
+        motorLF.setPower(0.6);
+        motorRF.setPower(0.6);
+        motorLB.setPower(0.6);
+        motorRB.setPower(0.6);
+        Thread.sleep(50);
+        //Stop robot
         motorLF.setPower(0);
         motorRF.setPower(0);
         motorLB.setPower(0);
