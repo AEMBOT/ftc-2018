@@ -193,6 +193,11 @@ public class AutonomousMode extends LinearOpMode {
         motorRF.setPower(0);
         motorLB.setPower(0);
         motorRB.setPower(0);
+        motorLF.setPower(0.6);
+        motorRF.setPower(0.6);
+        motorLB.setPower(0.6);
+        motorRB.setPower(0.6);
+        Thread.sleep(50);
     }
 
     public void MoveIfLeft() throws InterruptedException {
