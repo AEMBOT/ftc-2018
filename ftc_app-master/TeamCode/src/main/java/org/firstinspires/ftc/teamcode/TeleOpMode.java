@@ -31,8 +31,13 @@ public class TeleOpMode extends LinearOpMode
         motorRight2 = hardwareMap.dcMotor.get("motorRB");
         LiftMotor = hardwareMap.dcMotor.get("LiftMotor");
 
+        //Grabber Servo 1 (left)
         Servo1 = hardwareMap.servo.get("servo1");
+
+        //Grabber Servo 2 (right)
         Servo2 = hardwareMap.servo.get("servo2");
+
+        //TBD
         Servo3 = hardwareMap.servo.get("servo3");
 
         //endregion
@@ -60,55 +65,51 @@ public class TeleOpMode extends LinearOpMode
 
             //region Setting Motors
 
-                //Tank Drive
-                motorLeft1.setPower(-gamepad1.left_stick_y);
-                motorLeft2.setPower(-gamepad1.left_stick_y);
-                motorRight1.setPower(-gamepad1.right_stick_y);
-                motorRight2.setPower(-gamepad1.right_stick_y);
+            //Tank Drive
+            motorLeft1.setPower(-gamepad1.left_stick_y);
+            motorLeft2.setPower(-gamepad1.left_stick_y);
+            motorRight1.setPower(-gamepad1.right_stick_y);
+            motorRight2.setPower(-gamepad1.right_stick_y);
 
-                //Reverse Opposite Motors
-                motorLeft1.setDirection(DcMotor.Direction.REVERSE);
-                motorLeft2.setDirection(DcMotor.Direction.REVERSE);
+            //Reverse Opposite Motors
+            motorLeft1.setDirection(DcMotor.Direction.REVERSE);
+            motorLeft2.setDirection(DcMotor.Direction.REVERSE);
 
-                //Move Forward
-                 if(gamepad1.dpad_up)
-                 {
-                    motorLeft1.setPower(1);
-                    motorRight1.setPower(1);
-                    motorLeft2.setPower(1);
-                    motorRight2.setPower(1);
+            //Move Forward
+            if(gamepad1.dpad_up)
+            {
+                motorLeft1.setPower(1);
+                motorRight1.setPower(1);
+                motorLeft2.setPower(1);
+                motorRight2.setPower(1);
+            }
 
-                 }
+            //Move Backward
+            if(gamepad1.dpad_down)
+            {
+                motorLeft1.setPower(-1);
+                motorRight1.setPower(-1);
+                motorLeft2.setPower(-1);
+                motorRight2.setPower(-1);
+            }
 
-                 //Move Backward
-                 if(gamepad1.dpad_down)
-                 {
+            //Move Left
+            if(gamepad1.dpad_right)
+            {
+                motorLeft1.setPower(-1);
+                motorLeft2.setPower(1);
+                motorRight1.setPower(1);
+                motorRight2.setPower(-1);
+            }
 
-                     motorLeft1.setPower(-1);
-                     motorRight1.setPower(-1);
-                     motorLeft2.setPower(-1);
-                     motorRight2.setPower(-1);
-
-                 }
-
-                 //Move Left
-                 if(gamepad1.dpad_right)
-                 {
-                     motorLeft1.setPower(-1);
-                     motorLeft2.setPower(1);
-                     motorRight1.setPower(1);
-                     motorRight2.setPower(-1);
-
-                 }
-
-                 //Move Right
-                 if(gamepad1.dpad_left)
-                 {
-                    motorLeft1.setPower(1);
-                    motorLeft2.setPower(-1);
-                    motorRight1.setPower(-1);
-                    motorRight2.setPower(1);
-                 }
+            //Move Right
+            if(gamepad1.dpad_left)
+            {
+                motorLeft1.setPower(1);
+                motorLeft2.setPower(-1);
+                motorRight1.setPower(-1);
+                motorRight2.setPower(1);
+            }
 
             if (gamepad2.dpad_up)
             {
