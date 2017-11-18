@@ -32,13 +32,13 @@ public class TeleOpMode extends LinearOpMode
         LiftMotor = hardwareMap.dcMotor.get("LiftMotor");
 
         //Grabber Servo 1 (left)
-        Servo1 = hardwareMap.servo.get("servo1");
+        Servo1 = hardwareMap.servo.get("Servo1");
 
         //Grabber Servo 2 (right)
-        Servo2 = hardwareMap.servo.get("servo2");
+        Servo2 = hardwareMap.servo.get("Servo2");
 
         //TBD
-        Servo3 = hardwareMap.servo.get("servo3");
+        Servo3 = hardwareMap.servo.get("Servo3");
 
         //endregion
 
@@ -47,7 +47,6 @@ public class TeleOpMode extends LinearOpMode
 
         waitForStart();
 
-        Boolean SwitchMode = false;
 
         while(opModeIsActive())
         {
@@ -128,12 +127,12 @@ public class TeleOpMode extends LinearOpMode
 
             if (gamepad2.left_bumper)
             {
-                Servo1.setPosition(1);
+                Servo1.setPosition(0);
                 Servo2.setPosition(1);
             }
             if (gamepad2.right_bumper)
             {
-                Servo1.setPosition(0);
+                Servo1.setPosition(1);
                 Servo2.setPosition(0);
             }
 

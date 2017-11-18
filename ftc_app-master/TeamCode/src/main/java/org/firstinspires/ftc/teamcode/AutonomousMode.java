@@ -37,6 +37,9 @@ public class AutonomousMode extends LinearOpMode {
     //Define Servo1
     private Servo Servo1;
 
+    //Define Servo2
+    private Servo Servo2;
+
     //Defie Motor Left Front
     private DcMotor motorLF;
 
@@ -48,7 +51,10 @@ public class AutonomousMode extends LinearOpMode {
 
     //Define Motor Right Back
     private DcMotor motorRB;
-
+    
+    //Define Lift Motor
+    private DcMotor motorLU;
+    
     //Define Servo That Has the Color Sensor Attached
     private Servo ColorServo;
 
@@ -68,6 +74,9 @@ public class AutonomousMode extends LinearOpMode {
         motorRF = hardwareMap.dcMotor.get("motorRF");
         motorLB = hardwareMap.dcMotor.get("motorLB");
         motorRB = hardwareMap.dcMotor.get("motorRB");
+        motorLU = hardwareMap.dcMotor.get("LiftMotor");
+        Servo1 = hardwareMap.servo.get("Servo1");
+        Servo2 = hardwareMap.servo.get("Servo2");
         ColorServo = hardwareMap.servo.get("CS");
         ColorSensor = hardwareMap.colorSensor.get("color");
 
@@ -179,83 +188,84 @@ public class AutonomousMode extends LinearOpMode {
 
     public void MoveIfCenter() throws InterruptedException {
         HasMoved = true;
-        //Move forward off balancing position
-        motorLF.setPower(0.6);
-        motorRF.setPower(0.6);
-        motorLB.setPower(0.6);
-        motorRB.setPower(0.6);
-        Thread.sleep(175);
-        //Turn to face glyph collumns
-        motorLF.setPower(-1);
-        motorRF.setPower(1);
-        motorLB.setPower(-1);
-        motorRB.setPower(1);
-        Thread.sleep(60);
-        //Move robot forward-pushing block in place
-        motorLF.setPower(0.6);
-        motorRF.setPower(0.6);
-        motorLB.setPower(0.6);
-        motorRB.setPower(0.6);
-        Thread.sleep(50);
-        //Stop robot
-        motorLF.setPower(0);
-        motorRF.setPower(0);
-        motorLB.setPower(0);
-        motorRB.setPower(0);
+        CloseGrabber();
+
+
     }
 
     public void MoveIfLeft() throws InterruptedException {
         HasMoved = true;
-        //Move forward off balancing position
-        motorLF.setPower(1);
-        motorRF.setPower(1);
-        motorLB.setPower(1);
-        motorRB.setPower(1);
-        Thread.sleep(150);
-        //Turn to face glyph collumns
-        motorLF.setPower(-1);
-        motorRF.setPower(1);
-        motorLB.setPower(-1);
-        motorRB.setPower(1);
-        Thread.sleep(60);
-        //Move robot forward-pushing block in place
-        motorLF.setPower(0.6);
-        motorRF.setPower(0.6);
-        motorLB.setPower(0.6);
-        motorRB.setPower(0.6);
-        Thread.sleep(50);
-        //Stop robot
-        motorLF.setPower(0);
-        motorRF.setPower(0);
-        motorLB.setPower(0);
-        motorRB.setPower(0);
+        CloseGrabber();
+        MoveLift();
+        Turn180();
+        Thread.sleep(630);
+        PowerAll();
+        Thread.sleep(800);
+        MoveRight();
+        Thread.sleep(1200);
+        PowerAll();
+        Thread.sleep(300);
+        PowerOff();
+
+
     }
 
     public void MoveIfRight() throws InterruptedException {
         HasMoved = true;
-        //Move forward off balancing position
-        motorLF.setPower(1);
-        motorRF.setPower(1);
+        CloseGrabber();
+
+    }
+
+    public void PowerAll()
+    {
         motorLB.setPower(1);
+        motorLF.setPower(1);
         motorRB.setPower(1);
-        Thread.sleep(300);
-        //Turn to face glyph collumns
-        motorLF.setPower(-1);
         motorRF.setPower(1);
+    }
+
+    public void TurnCounterClockwise ()
+    {
         motorLB.setPower(-1);
+        motorLF.setPower(-1);
         motorRB.setPower(1);
-        Thread.sleep(60);
-        //Move robot forward-pushing block in place
-        motorLF.setPower(0.6);
-        motorRF.setPower(0.6);
-        motorLB.setPower(0.6);
-        motorRB.setPower(0.6);
-        Thread.sleep(50);
-        //Stop robot
-        motorLF.setPower(0);
-        motorRF.setPower(0);
+        motorRF.setPower(1);
+    }
+
+    public void PowerOff()
+    {
         motorLB.setPower(0);
+        motorLF.setPower(0);
         motorRB.setPower(0);
+        motorRF.setPower(0);
+    }
+
+    public void MoveRight()
+    {
+         motorLB.setPower(1);
+         motorLF.setPower(-1);
+         motorRB.setPower(-1);
+         motorRF.setPower(1);
+    }
+
+    public void CloseGrabber()
+    {
+        Servo1.setPosition(0);
+        Servo2.setPosition(1);
+    }
+
+    public void TurnClockwise()
+    {
+        motorLB.setPower(1);
+        motorLF.setPower(1);
+        motorRB.setPower(-1);
+        motorRF.setPower(-1);
+    }
+
+    public void MoveLift() throws InterruptedException {
+        motorLU.setPower(0.5);
+        Thread.sleep(500);
+        motorLU.setPower(0);
     }
 
 }

@@ -54,11 +54,6 @@ public class AutonomousModeBasic extends LinearOpMode {
 
     private ColorSensor ColorSensor;
 
-    private VuforiaTrackables relicTrackables; //= this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-    private VuforiaTrackable relicTemplate;    // = relicTrackables.get(0);
-    private RelicRecoveryVuMark vuMark;        //= RelicRecoveryVuMark.from(relicTemplate);
-    OpenGLMatrix pose;
-
 
     //All OpMode Code Is Stored Here And Ran From Here
     @Override
@@ -78,14 +73,11 @@ public class AutonomousModeBasic extends LinearOpMode {
         //Wait Till Start Button Is Pressed
         waitForStart();
 
-        //Actiavte The Relic Trackable
-        relicTrackables.activate();
-
         motorLF.setPower(1);
         motorRF.setPower(1);
         motorLB.setPower(1);
         motorRB.setPower(1);
-        Thread.sleep(500);
+        Thread.sleep(700);
 
     }
 
