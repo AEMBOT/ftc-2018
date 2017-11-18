@@ -101,7 +101,7 @@ public class AutonomousMode extends LinearOpMode {
     }
 
     //region Vuforia
-    public void setUpVuforia(VuforiaTrackable relicTemplate) {
+    public void setUpVuforia(VuforiaTrackable relicTemplate) throws InterruptedException {
         /**
          * See if any of the instances of {@link relicTemplate} are currently visible.
          * {@link RelicRecoveryVuMark} is an enum which can have the following values:
