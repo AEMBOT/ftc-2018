@@ -183,7 +183,7 @@ public class AutonomousMode extends LinearOpMode {
         motorRF.setPower(1);
         motorLB.setPower(1);
         motorRB.setPower(1);
-        Thread.sleep(75);
+        Thread.sleep(175);
         motorLF.setPower(0);
         motorRF.setPower(0);
         motorLB.setPower(0);
@@ -196,7 +196,7 @@ public class AutonomousMode extends LinearOpMode {
         motorRF.setPower(1);
         motorLB.setPower(1);
         motorRB.setPower(1);
-        Thread.sleep(50);
+        Thread.sleep(150);
         motorLF.setPower(0);
         motorRF.setPower(0);
         motorLB.setPower(0);
@@ -209,7 +209,7 @@ public class AutonomousMode extends LinearOpMode {
         motorRF.setPower(1);
         motorLB.setPower(1);
         motorRB.setPower(1);
-        Thread.sleep(100);
+        Thread.sleep(300);
         motorLF.setPower(0);
         motorRF.setPower(0);
         motorLB.setPower(0);
