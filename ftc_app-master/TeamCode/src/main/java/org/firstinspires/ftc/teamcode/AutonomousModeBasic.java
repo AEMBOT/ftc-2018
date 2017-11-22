@@ -49,6 +49,8 @@ public class AutonomousModeBasic extends LinearOpMode {
     //Define Motor Right Back
     private DcMotor motorRB;
 
+    private DcMotor LiftMotor;
+
     //Define Servo That Has the Color Sensor Attached
     private Servo ColorServo;
 
@@ -66,12 +68,15 @@ public class AutonomousModeBasic extends LinearOpMode {
         motorRB = hardwareMap.dcMotor.get("motorRB");
         ColorServo = hardwareMap.servo.get("CS");
         ColorSensor = hardwareMap.colorSensor.get("color");
+        LiftMotor = hardwareMap.dcMotor.get("LiftMotor");
+
 
         motorLF.setDirection(DcMotor.Direction.REVERSE);
         motorLB.setDirection(DcMotor.Direction.REVERSE);
 
         //Wait Till Start Button Is Pressed
         waitForStart();
+
 
         motorLF.setPower(1);
         motorRF.setPower(1);

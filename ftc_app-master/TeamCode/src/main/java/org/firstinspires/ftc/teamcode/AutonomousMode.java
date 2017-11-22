@@ -197,14 +197,12 @@ public class AutonomousMode extends LinearOpMode {
         HasMoved = true;
         CloseGrabber();
         MoveLift();
-        Turn180();
+        TurnCounterClockwise();
         Thread.sleep(630);
+        MoveRight();
+        Thread.sleep(800);
         PowerAll();
         Thread.sleep(800);
-        MoveRight();
-        Thread.sleep(1200);
-        PowerAll();
-        Thread.sleep(300);
         PowerOff();
 
 
