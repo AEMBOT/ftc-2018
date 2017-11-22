@@ -204,8 +204,6 @@ public class AutonomousMode extends LinearOpMode {
         PowerAll();
         Thread.sleep(800);
         PowerOff();
-
-
     }
 
     public void MoveIfRight() throws InterruptedException {
@@ -216,10 +214,10 @@ public class AutonomousMode extends LinearOpMode {
 
     public void PowerAll()
     {
-        motorLB.setPower(1);
-        motorLF.setPower(1);
-        motorRB.setPower(1);
-        motorRF.setPower(1);
+        motorLB.setPower(0.5);
+        motorLF.setPower(0.5);
+        motorRB.setPower(0.5);
+        motorRF.setPower(0.5);
     }
 
     public void TurnCounterClockwise ()
