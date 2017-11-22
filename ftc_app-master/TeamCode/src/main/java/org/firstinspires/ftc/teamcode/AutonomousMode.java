@@ -197,12 +197,12 @@ public class AutonomousMode extends LinearOpMode {
         HasMoved = true;
         CloseGrabber();
         MoveLift();
-        TurnCounterClockwise();
-        Thread.sleep(630);
+        Reverse();
+        Thread.sleep(600);
         MoveRight();
-        Thread.sleep(800);
+        Thread.sleep(2000);
         PowerAll();
-        Thread.sleep(800);
+        Thread.sleep(500);
         PowerOff();
     }
 
@@ -218,6 +218,14 @@ public class AutonomousMode extends LinearOpMode {
         motorLF.setPower(0.5);
         motorRB.setPower(0.5);
         motorRF.setPower(0.5);
+    }
+
+    public void Reverse()
+    {
+        motorLB.setPower(-1);
+        motorLF.setPower(-1);
+        motorRB.setPower(-1);
+        motorRF.setPower(-1);
     }
 
     public void TurnCounterClockwise ()
