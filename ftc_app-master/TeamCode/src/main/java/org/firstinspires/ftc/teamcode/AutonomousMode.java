@@ -197,15 +197,16 @@ public class AutonomousMode extends LinearOpMode {
         HasMoved = true;
         CloseGrabber();
         MoveLift();
-        Reverse();
+        PowerAll();
         Thread.sleep(600);
-        MoveRight();
-        Thread.sleep(2000);
+        TurnCounterClockwise();
+        Thread.sleep(600);
         PowerAll();
         Thread.sleep(500);
         PowerOff();
     }
 
+    //region Types Of Movement
     public void MoveIfRight() throws InterruptedException {
         HasMoved = true;
         CloseGrabber();
@@ -271,6 +272,7 @@ public class AutonomousMode extends LinearOpMode {
         Thread.sleep(500);
         motorLU.setPower(0);
     }
+    //endregion
 
 }
 

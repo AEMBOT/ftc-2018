@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 //region Imports
+import android.app.Activity;
+import android.graphics.Color;
+import android.view.View;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -66,9 +70,14 @@ public class AutonomousModeBasic extends LinearOpMode {
         motorRF = hardwareMap.dcMotor.get("motorRF");
         motorLB = hardwareMap.dcMotor.get("motorLB");
         motorRB = hardwareMap.dcMotor.get("motorRB");
-        ColorServo = hardwareMap.servo.get("CS");
+        ColorServo = hardwareMap.servo.get("colorServo");
         ColorSensor = hardwareMap.colorSensor.get("color");
         LiftMotor = hardwareMap.dcMotor.get("LiftMotor");
+        float hsvValues[] = {0F, 0F, 0F};
+        final float values[] = hsvValues;
+        final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(R.id.RelativeLayout);
+
+        int b = 1;
 
 
         motorLF.setDirection(DcMotor.Direction.REVERSE);
@@ -77,12 +86,44 @@ public class AutonomousModeBasic extends LinearOpMode {
         //Wait Till Start Button Is Pressed
         waitForStart();
 
+        ColorServo.setPosition(0);
 
-        motorLF.setPower(1);
-        motorRF.setPower(1);
-        motorLB.setPower(1);
-        motorRB.setPower(1);
-        Thread.sleep(700);
+        while (opModeIsActive())
+        {
+            Color.RGBToHSV(ColorSensor.red() * 8, ColorSensor.green() * 0, ColorSensor.blue() * 8, hsvValues);
+            telemetry.addData("Red ", ColorSensor.red());
+            telemetry.addData("Green ", ColorSensor.green());
+            telemetry.addData("Blue ", ColorSensor.blue());
+            telemetry.update();
+
+            if (ColorSensor.red() >= 2 && b == 1)
+            {
+                telemetry.addData("Color: ", "Its Red");
+                b = 2;
+                telemetry.update();
+            }
+            else if (ColorSensor.blue() >= 2 && b == 1)
+            {
+                telemetry.addData("Color: ", "Its Blue");
+                b = 2;
+                telemetry.update();
+            }
+            else
+            {
+                telemetry.addData("Color: ", "IDK");
+                motorLF.setPower(0);
+                motorRF.setPower(0);
+                motorLB.setPower(0);
+                motorRB.setPower(0);
+                telemetry.update();
+            }
+        }
+
+        //motorLF.setPower(0.5);
+        //motorRF.setPower(0.5);
+        //motorLB.setPower(0.5);
+        //motorRB.setPower(0.5);
+        //Thread.sleep(700);
 
     }
 
