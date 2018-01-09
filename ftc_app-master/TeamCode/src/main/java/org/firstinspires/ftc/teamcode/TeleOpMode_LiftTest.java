@@ -2,17 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
-import com.sun.tools.javac.util.Position;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@TeleOp(name = "TeleOpMode", group = "Test")
-public class TeleOpMode extends LinearOpMode
+@TeleOp(name = "TeleOpMode_LiftTest", group = "Test")
+public class TeleOpMode_LiftTest extends LinearOpMode
 {
     private DcMotor motorLeft1;
     private DcMotor motorRight1;
@@ -21,13 +18,8 @@ public class TeleOpMode extends LinearOpMode
     private DcMotor LiftMotor;
     private Servo Servo1;
     private Servo Servo2;
-    private Servo Servo3;
     private Servo ColorServo;
-    private TouchSensor touchSensor;
-    private boolean SlowMode = false;
-    private double MotorSpeed = 1;
-    private boolean HasResetServo = false;
-    private boolean GrabberClosed = false;
+    private int foo = 3;
 
 
     @Override
@@ -41,7 +33,7 @@ public class TeleOpMode extends LinearOpMode
         motorRight2 = hardwareMap.dcMotor.get("motorRB");
         LiftMotor = hardwareMap.dcMotor.get("LiftMotor");
         ColorServo = hardwareMap.servo.get("colorServo");
-        touchSensor = hardwareMap.touchSensor.get("touch");
+
 
         //Grabber Servo 1 (left)
         Servo1 = hardwareMap.servo.get("Servo1");
@@ -49,8 +41,6 @@ public class TeleOpMode extends LinearOpMode
         //Grabber Servo 2 (right)
         Servo2 = hardwareMap.servo.get("Servo2");
 
-        //TBD
-        Servo3 = hardwareMap.servo.get("Servo3");
 
         //endregion
 
@@ -59,60 +49,35 @@ public class TeleOpMode extends LinearOpMode
 
         waitForStart();
 
+        if (ColorServo.getPosition() < 0.9) {
+            ColorServo.setPosition(0.9);
+        }
+
         while(opModeIsActive())
         {
+            telemetry.addData("Current Position: ", LiftMotor.getCurrentPosition());
+            telemetry.update();
 
-            if(HasResetServo == false) {
-                HasResetServo = true;
-                ColorServo.setPosition(0.9);
+            //region Change Servo Position
+            if (gamepad2.dpad_right)
+            {
+                Servo1.setPosition(Servo1.getPosition() + 0.01);
+                Servo2.setPosition(Servo2.getPosition() - 0.01);
             }
-            //Region Setting Motors
+            if (gamepad2.dpad_left)
+            {
+                Servo1.setPosition(Servo1.getPosition() - 0.01);
+                Servo2.setPosition(Servo2.getPosition() + 0.01);
+            }
+            //endregion
+
+            //region Setting Motors
+
             //Tank Drive
             motorLeft1.setPower(-gamepad1.left_stick_y);
             motorLeft2.setPower(-gamepad1.left_stick_y);
             motorRight1.setPower(-gamepad1.right_stick_y);
             motorRight2.setPower(-gamepad1.right_stick_y);
-
-            //Move Forward
-            if(gamepad1.dpad_up)
-            {
-                motorLeft1.setPower(MotorSpeed);
-                motorRight1.setPower(MotorSpeed);
-                motorLeft2.setPower(MotorSpeed);
-                motorRight2.setPower(MotorSpeed);
-            }
-
-            if(gamepad2.a)
-            {
-                ColorServo.setPosition(1);
-            }
-
-            //Move Backward
-            if(gamepad1.dpad_down)
-            {
-                motorLeft1.setPower(-MotorSpeed);
-                motorRight1.setPower(-MotorSpeed);
-                motorLeft2.setPower(-MotorSpeed);
-                motorRight2.setPower(-MotorSpeed);
-            }
-
-            //Move Left
-            if(gamepad1.b || gamepad1.right_bumper || gamepad1.dpad_right)
-            {
-                motorLeft1.setPower(-MotorSpeed);
-                motorLeft2.setPower(MotorSpeed);
-                motorRight1.setPower(MotorSpeed);
-                motorRight2.setPower(-MotorSpeed);
-            }
-
-            //Move Right
-            if(gamepad1.x || gamepad1.left_bumper || gamepad1.dpad_left)
-            {
-                motorLeft1.setPower(MotorSpeed);
-                motorLeft2.setPower(-MotorSpeed);
-                motorRight1.setPower(-MotorSpeed);
-                motorRight2.setPower(MotorSpeed);
-            }
 
             if(gamepad2.left_trigger > 0) {
 
@@ -127,15 +92,57 @@ public class TeleOpMode extends LinearOpMode
                 LiftMotor.setPower(0);
             }
 
-            //Open Grabber
+            //Reverse Opposite Motors
+            motorLeft1.setDirection(DcMotor.Direction.REVERSE);
+            motorLeft2.setDirection(DcMotor.Direction.REVERSE);
+
+            //Move Forward
+            if(gamepad1.dpad_up)
+            {
+                motorLeft1.setPower(1);
+                motorRight1.setPower(1);
+                motorLeft2.setPower(1);
+                motorRight2.setPower(1);
+            }
+
+            if(gamepad2.a)
+            {
+                ColorServo.setPosition(0.9);
+            }
+
+
+            //Move Backward
+            if(gamepad1.dpad_down)
+            {
+                motorLeft1.setPower(-1);
+                motorRight1.setPower(-1);
+                motorLeft2.setPower(-1);
+                motorRight2.setPower(-1);
+            }
+
+            //Move Left
+            if(gamepad1.dpad_right)
+            {
+                motorLeft1.setPower(-1);
+                motorLeft2.setPower(1);
+                motorRight1.setPower(1);
+                motorRight2.setPower(-1);
+            }
+
+            //Move Right
+            if(gamepad1.dpad_left)
+            {
+                motorLeft1.setPower(1);
+                motorLeft2.setPower(-1);
+                motorRight1.setPower(-1);
+                motorRight2.setPower(1);
+            }
+
             if (gamepad2.left_bumper)
             {
                 Servo1.setPosition(0);
                 Servo2.setPosition(1);
-
             }
-
-            //Close Grabber
             if (gamepad2.right_bumper)
             {
                 Servo1.setPosition(1);

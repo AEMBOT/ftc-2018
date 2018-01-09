@@ -13,12 +13,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 //endregion
 
 //Define Program Name
-@Autonomous(name = "AutonomousModeBlue")
-public class AutonomousModeBlue_Left extends LinearOpMode {
+@Autonomous(name = "AutonomousModeBlue_Right_Test")
+public class AutonomousModeBlue_Right_Test extends LinearOpMode {
 
 
     //Define Servo1
     private Servo Servo1;
+
+    private Servo Servo2;
 
     //Defie Motor Left Front
     private DcMotor motorLF;
@@ -32,8 +34,12 @@ public class AutonomousModeBlue_Left extends LinearOpMode {
     //Define Motor Right Back
     private DcMotor motorRB;
 
+    private DcMotor motorLU;
+
     //Define Servo That Has the Color Sensor Attached
     private Servo ColorServo;
+
+
 
     private ColorSensor ColorSensor;
 
@@ -49,7 +55,10 @@ public class AutonomousModeBlue_Left extends LinearOpMode {
         motorLB = hardwareMap.dcMotor.get("motorLB");
         motorRB = hardwareMap.dcMotor.get("motorRB");
         ColorServo = hardwareMap.servo.get("colorServo");
+        Servo2 = hardwareMap.servo.get("Servo2");
         ColorSensor = hardwareMap.colorSensor.get("color");
+        motorLU = hardwareMap.dcMotor.get("LiftMotor");
+
         //endregion
 
         //Define Color Values
@@ -76,27 +85,32 @@ public class AutonomousModeBlue_Left extends LinearOpMode {
             telemetry.addData("Blue ", ColorSensor.blue());
             telemetry.update();
 
-           ColorServo.setPosition(0);
+            if(b != 2) {
+                ColorServo.setPosition(0);
+            }
            Thread.sleep(200);
             //If Color Is Red
-            if (ColorSensor.red() >= 2 && b == 1)
-            {
-                ColorCounterClockwise();
-                b = 2;
-            }
-            //If  Color Is Blue
-            else if (ColorSensor.blue() >= 2 && b == 1)
+            if (ColorSensor.red() >= 1 && b == 1)
             {
                 ColorClockwise();
                 b = 2;
             }
-            //If Neither Do Nothing
-            else
+            //If Color Is Blue
+            if (ColorSensor.blue() >= 1 && b == 1)
             {
-                motorLF.setPower(0);
-                motorRF.setPower(0);
-                motorLB.setPower(0);
-                motorRB.setPower(0);
+                ColorCounterClockwise();
+                b = 2;
+            }
+
+            else if (b == 1)
+            {
+                Thread.sleep(1000);
+                motorLB.setPower(-0.2);
+                motorLF.setPower(-0.2);
+                motorRB.setPower(-0.2);
+                motorRF.setPower(-0.2);
+                Thread.sleep(200);
+                PowerOff();
             }
 
         }
@@ -104,15 +118,33 @@ public class AutonomousModeBlue_Left extends LinearOpMode {
 
     public void ColorClockwise() throws InterruptedException {
         TurnClockwise();
-        Thread.sleep(200);
+        Thread.sleep(300);
         ColorServo.setPosition(1);
-
+        Thread.sleep(500);
+        PowerOff();
     }
     public void ColorCounterClockwise() throws InterruptedException {
         TurnCounterClockwise();
-        Thread.sleep(200);
+        Thread.sleep(300);
         ColorServo.setPosition(1);
+        Thread.sleep(500);
+        PowerOff();
+    }
 
+    public void PowerAll()
+    {
+        motorLB.setPower(0.5);
+        motorLF.setPower(0.5);
+        motorRB.setPower(0.5);
+        motorRF.setPower(0.5);
+    }
+
+    public void PowerOff()
+    {
+        motorLB.setPower(0);
+        motorLF.setPower(0);
+        motorRB.setPower(0);
+        motorRF.setPower(0);
     }
 
     public void TurnClockwise()
@@ -125,10 +157,41 @@ public class AutonomousModeBlue_Left extends LinearOpMode {
 
     public void TurnCounterClockwise ()
     {
-        motorLB.setPower(-1);
-        motorLF.setPower(-1);
-        motorRB.setPower(1);
-        motorRF.setPower(1);
+        motorLB.setPower(-0.5);
+        motorLF.setPower(-0.5);
+        motorRB.setPower(0.5);
+        motorRF.setPower(0.5);
+    }
+
+    //Function That Calls Other Functions That Makes The Bot Drive Off The Platform And Into The Safe Zone
+    public void MoveToBox() throws InterruptedException {
+
+        //Power All Motors
+        PowerAll();
+        Thread.sleep(700);
+
+        //Turn Robot Counter-Clockwise
+        TurnCounterClockwise();
+        Thread.sleep(300);
+        PowerAll();
+        Thread.sleep(100);
+        PowerOff();
+
+
+    }
+
+    //Close The Crabber On The Lift
+    public void CloseGrabber()
+    {
+        Servo1.setPosition(0);
+        Servo2.setPosition(1);
+    }
+
+    //Move The lift Up
+    public void MoveLift() throws InterruptedException {
+        motorLU.setPower(1);
+        Thread.sleep(500);
+        motorLU.setPower(0);
     }
 
 }
