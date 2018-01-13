@@ -68,18 +68,18 @@ public class TeleOpMode extends LinearOpMode
             }
             //Region Setting Motors
             //Tank Drive
-            motorLeft1.setPower(-gamepad1.left_stick_y);
-            motorLeft2.setPower(-gamepad1.left_stick_y);
-            motorRight1.setPower(-gamepad1.right_stick_y);
-            motorRight2.setPower(-gamepad1.right_stick_y);
+            motorLeft1.setPower(-gamepad1.left_stick_y / 2);
+            motorLeft2.setPower(-gamepad1.left_stick_y /  2);
+            motorRight1.setPower(-gamepad1.right_stick_y / 2);
+            motorRight2.setPower(-gamepad1.right_stick_y / 2);
 
             //Move Forward
             if(gamepad1.dpad_up)
             {
-                motorLeft1.setPower(MotorSpeed);
-                motorRight1.setPower(MotorSpeed);
-                motorLeft2.setPower(MotorSpeed);
-                motorRight2.setPower(MotorSpeed);
+                motorLeft1.setPower(0.5);
+                motorRight1.setPower(0.5);
+                motorLeft2.setPower(0.5);
+                motorRight2.setPower(0.5);
             }
 
             if(gamepad2.a)
@@ -90,28 +90,28 @@ public class TeleOpMode extends LinearOpMode
             //Move Backward
             if(gamepad1.dpad_down)
             {
-                motorLeft1.setPower(-MotorSpeed);
-                motorRight1.setPower(-MotorSpeed);
-                motorLeft2.setPower(-MotorSpeed);
-                motorRight2.setPower(-MotorSpeed);
+                motorLeft1.setPower(-0.5);
+                motorRight1.setPower(-0.5);
+                motorLeft2.setPower(-0.5);
+                motorRight2.setPower(-0.5);
             }
 
             //Move Left
             if(gamepad1.b || gamepad1.right_bumper || gamepad1.dpad_right)
             {
-                motorLeft1.setPower(-MotorSpeed);
-                motorLeft2.setPower(MotorSpeed);
-                motorRight1.setPower(MotorSpeed);
-                motorRight2.setPower(-MotorSpeed);
+                motorLeft1.setPower(-0.5);
+                motorLeft2.setPower(0.5);
+                motorRight1.setPower(0.5);
+                motorRight2.setPower(-0.5);
             }
 
             //Move Right
             if(gamepad1.x || gamepad1.left_bumper || gamepad1.dpad_left)
             {
-                motorLeft1.setPower(MotorSpeed);
-                motorLeft2.setPower(-MotorSpeed);
-                motorRight1.setPower(-MotorSpeed);
-                motorRight2.setPower(MotorSpeed);
+                motorLeft1.setPower(0.5);
+                motorLeft2.setPower(-0.5);
+                motorRight1.setPower(-0.5);
+                motorRight2.setPower(0.5);
             }
 
             if(gamepad2.left_trigger > 0) {
@@ -141,7 +141,6 @@ public class TeleOpMode extends LinearOpMode
                 Servo1.setPosition(1);
                 Servo2.setPosition(0);
             }
-
 
             //endregion
         }

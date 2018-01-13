@@ -39,8 +39,7 @@ public class AutonomousModeBlue_NoMove_Test extends LinearOpMode {
     //Define Servo That Has the Color Sensor Attached
     private Servo ColorServo;
 
-
-
+    //Define The Color Sensor
     private ColorSensor ColorSensor;
 
 
@@ -115,7 +114,6 @@ public class AutonomousModeBlue_NoMove_Test extends LinearOpMode {
                     PowerOff();
                 }
             }
-
         }
     }
 
@@ -196,5 +194,7 @@ public class AutonomousModeBlue_NoMove_Test extends LinearOpMode {
         Thread.sleep(500);
         motorLU.setPower(0);
     }
+
+
 
 }
