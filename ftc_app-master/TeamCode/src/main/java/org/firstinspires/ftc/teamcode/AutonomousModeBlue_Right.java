@@ -5,10 +5,13 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -19,6 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.TempUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
@@ -49,10 +53,13 @@ public class AutonomousModeBlue_Right extends LinearOpMode {
 
     private DcMotor motorLU;
 
+    private DcMotor RelicMotor;
+
     //Define Servo That Has the Color Sensor Attached
     private Servo ColorServo;
 
     private ColorSensor ColorSensor;
+
 
 
     //All OpMode Code Is Stored Here And Ran From Here
@@ -67,8 +74,11 @@ public class AutonomousModeBlue_Right extends LinearOpMode {
         motorRB = hardwareMap.dcMotor.get("motorRB");
         ColorServo = hardwareMap.servo.get("colorServo");
         Servo2 = hardwareMap.servo.get("Servo2");
+        Servo1 = hardwareMap.servo.get("Servo1");
         ColorSensor = hardwareMap.colorSensor.get("color");
+
         motorLU = hardwareMap.dcMotor.get("LiftMotor");
+
         //endregion
 
         //Define Color Values
@@ -95,9 +105,12 @@ public class AutonomousModeBlue_Right extends LinearOpMode {
             telemetry.addData("Blue ", ColorSensor.blue());
             telemetry.update();
 
+
+
             //Check If It Hasn't Sensed A Color
             if(b != 2) {
                 ColorServo.setPosition(0);
+
             }
             //Wait 200 Milliseconds For Servo to Lower
            Thread.sleep(200);
@@ -105,7 +118,7 @@ public class AutonomousModeBlue_Right extends LinearOpMode {
             //If Color Is Red
             if (ColorSensor.red() >= 2 && b == 1)
             {
-                //If Its Red Turn Counter Clockwise
+                //If It's Red Turn Counter Clockwise
                 ColorClockwise();
 
 
@@ -115,20 +128,23 @@ public class AutonomousModeBlue_Right extends LinearOpMode {
             //If  Color Is Blue
             else if (ColorSensor.blue() >= 2 && b == 1)
             {
-                //If Its Blue Turn Clockwise
+                //If It's Blue Turn Clockwise
                 ColorCounterClockwise();
-
                 //And Set Run Variable Equal To A Number Other Than 1
                 b = 2;
             }
 
-            //If Its Not Red Or Blue, Do Nothing
-            else
+            //If the color sensor doesn't
+            else if (b==1)
             {
-                motorLF.setPower(0);
-                motorRF.setPower(0);
-                motorLB.setPower(0);
-                motorRB.setPower(0);
+                Thread.sleep(1000);
+
+                    motorLB.setPower(-0.1);
+                    motorLF.setPower(-0.1);
+                    motorRB.setPower(-0.1);
+                    motorRF.setPower(-0.1);
+                    Thread.sleep(200);
+                    PowerOff();
             }
 
         }
@@ -136,8 +152,16 @@ public class AutonomousModeBlue_Right extends LinearOpMode {
 
     //Define Function That Contains All Of The Code To Move The Robot Based Color, Clockwise
     public void ColorClockwise() throws InterruptedException {
+        //Close grabber to grip block
+        CloseGrabber();
 
-        //Tell Robot To Turn Clockwise
+        //Wait one second
+        Thread.sleep(1000);
+
+        //After waiting move lift upwards to avoid hitting the ground when driving off the platform
+        MoveLift();
+
+        //Call function that spins wheels
         TurnClockwise();
 
         //Wait 300 Milliseconds
@@ -146,24 +170,27 @@ public class AutonomousModeBlue_Right extends LinearOpMode {
         //Set Servo That Has The  Color Sensor Attached To It's Upright Position
         ColorServo.setPosition(0.9);
 
-        //Wait 500 Milliseconds
-        Thread.sleep(500);
-
-        //Turn Robot Counter Clockwise
         TurnCounterClockwise();
 
-        //Wait 1700 Milliseconds
-        Thread.sleep(1700);
+        Thread.sleep(1300);
 
         //Power All Motors
         PowerAll();
 
         //Wait 700 Milliseconds
         Thread.sleep(700);
+
+        PowerOff();
+
+        ColorServo.setPosition(0);
     }
 
     //Define Function That Contains All Of The Code To Move The Robot Based Color, Counter Clockwise
     public void ColorCounterClockwise() throws InterruptedException {
+
+        CloseGrabber();
+        Thread.sleep(1000);
+        MoveLift();
 
         //Turn Bot Counter Clockwise
         TurnCounterClockwise();
@@ -172,24 +199,17 @@ public class AutonomousModeBlue_Right extends LinearOpMode {
         Thread.sleep(300);
 
         //Set Servo That Holds The Color Sensor To It's Upright Position
-        ColorServo.setPosition(0.9);
-
-        //Wait 0.5 Seconds
-        Thread.sleep(500);
-
-        //Turn Robot Clockwise
-        TurnClockwise();
-
-        //Wait 1 Second
-        Thread.sleep(1000);
+        ColorServo.setPosition(1);
 
         //Power All Motors
         PowerAll();
-
-        //Wait 0.7 Seconds
+        //Wait 700 Milliseconds
         Thread.sleep(700);
 
-        //Shutoff All Motors
+        PowerOff();
+
+        ColorServo.setPosition(0);
+
         PowerOff();
 
     }
@@ -215,10 +235,10 @@ public class AutonomousModeBlue_Right extends LinearOpMode {
     //Turn The Robot Clockwise
     public void TurnClockwise()
     {
-        motorLB.setPower(1);
-        motorLF.setPower(1);
-        motorRB.setPower(-1);
-        motorRF.setPower(-1);
+        motorLB.setPower(0.5);
+        motorLF.setPower(0.5);
+        motorRB.setPower(-0.5);
+        motorRF.setPower(-0.5);
     }
 
     //Turn The  Robot Counter Clockwise
@@ -230,46 +250,19 @@ public class AutonomousModeBlue_Right extends LinearOpMode {
         motorRF.setPower(0.5);
     }
 
-    //This Is The Function That Holds All The Code That Tells The Bot To Drive Off The Platform And Into The Safe Zone
-    public void MoveToBox() throws InterruptedException {
-
-        //Power All Motors
-        PowerAll();
-
-        //Wait 0.7 Seconds
-        Thread.sleep(700);
-
-        //Turn Robot Counter-Clockwise
-        TurnCounterClockwise();
-
-        //Wait 0.3 Seconds
-        Thread.sleep(300);
-
-        //Power All Motors
-        PowerAll();
-
-        //Wait 0.1 Seconds
-        Thread.sleep(100);
-
-        //Shutoff All Motors
-        PowerOff();
-
-
-    }
-
     //Close The Crabber On The Lift
     public void CloseGrabber()
     {
         //Set Both Servo Positions To 0 And 1, Thus Closing The Grabber
-        Servo1.setPosition(0);
-        Servo2.setPosition(1);
+        Servo1.setPosition(1);
+        Servo2.setPosition(0);
     }
 
     //Move The lift Up
     public void MoveLift() throws InterruptedException {
 
         //Set The Lift Motor Power To 1
-        motorLU.setPower(1);
+        motorLU.setPower(-1);
 
         //Wait 0.5 Seconds
         Thread.sleep(500);
